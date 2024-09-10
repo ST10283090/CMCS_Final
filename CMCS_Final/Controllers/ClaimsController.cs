@@ -86,7 +86,6 @@ namespace CMCS_Final.Controllers
         }
          
 
-
         // HTTP POST for approving a claim
         [Authorize(Roles = "Programme Co-ordinator")]
         [HttpPost]
