@@ -84,7 +84,7 @@ namespace CMCS_Final.Controllers
             var claims = await _context.Claims.ToListAsync();
             return View(claims);
         }
-
+         
 
         // HTTP POST for approving a claim
         [Authorize(Roles = "Programme Co-ordinator")]

@@ -10,7 +10,7 @@ namespace CMCS_Final.Models
         [Required]
         public string FirstName { get; set; }
         [Required]
-        public string LastName { get; set; }
+        public string LastName { get; set; } 
         [Required]
         public DateTime ClaimsPeriodStart { get; set; }
         [Required]
