@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CMCS_Final.Models.Claims>
+
+@{
+    ViewData["Title"] = "All Claims";
+}
+
+<h2>All Claims</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Lecturer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Claims Period Start</th>
+            <th>Claims Period End</th>
+            <th>Hours Worked</th>
+            <th>Rate Per Hour</th>
+            <th>Total Amount</th>
+            <th>Description Of Work</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.Lecturer_ID</td>
+                <td>@claim.FirstName</td>
+                <td>@claim.LastName</td>
+                <td>@claim.ClaimsPeriodStart.ToShortDateString()</td>
+                <td>@claim.ClaimsPeriodEnd.ToShortDateString()</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.RatePerHour</td>
+                <td>@claim.TotalAmount.ToString("C")</td>
+                <td>@claim.DescriptionOfWork</td>
+                <td>@claim.Status</td>
+                <td>
+                    <!-- You can add buttons for actions like approving, rejecting, etc. here -->
+                    <a asp-action="ApproveClaim" asp-route-id="@claim.Id" class="btn btn-success">Approve</a>
+                    <a asp-action="RejectClaim" asp-route-id="@claim.Id" class="btn btn-danger">Reject</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

@@ -1,0 +1,102 @@
+﻿@model CMCS_Final.Models.Claims
+
+@{
+    ViewData["Title"] = "Submit Claim";
+    var success = TempData["Success"] as bool? ?? false;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Claims" method="post" enctype="multipart/form-data" id="claimForm">
+    <div class="form-group">
+        <label asp-for="Lecturer_ID"></label>
+        <input asp-for="Lecturer_ID" class="form-control" />
+        <span asp-validation-for="Lecturer_ID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClaimsPeriodStart"></label>
+        <input asp-for="ClaimsPeriodStart" type="date" class="form-control" />
+        <span asp-validation-for="ClaimsPeriodStart" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClaimsPeriodEnd"></label>
+        <input asp-for="ClaimsPeriodEnd" type="date" class="form-control" />
+        <span asp-validation-for="ClaimsPeriodEnd" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HoursWorked"></label>
+        <input asp-for="HoursWorked" class="form-control" step="0.01" />
+        <span asp-validation-for="HoursWorked" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RatePerHour"></label>
+        <input asp-for="RatePerHour" class="form-control" step="0.01" />
+        <span asp-validation-for="RatePerHour" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DescriptionOfWork"></label>
+        <textarea asp-for="DescriptionOfWork" class="form-control"></textarea>
+        <span asp-validation-for="DescriptionOfWork" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DocumentFileName"></label>
+        <input asp-for="DocumentFileName" type="file" class="form-control" />
+        <span asp-validation-for="DocumentFileName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $('#claimForm').on('submit', function (event) {
+                var hoursWorked = parseFloat($('#HoursWorked').val());
+                var ratePerHour = parseFloat($('#RatePerHour').val());
+                var totalAmount = hoursWorked * ratePerHour;
+
+                // Validate required fields
+                if (isNaN(hoursWorked) || isNaN(ratePerHour) || hoursWorked <= 0 || ratePerHour <= 0) {
+                    toastr.error('Please fill in all required fields with valid values.');
+                    return false; // Prevent form submission
+                }
+
+                // Set total amount
+                $('#TotalAmount').val(totalAmount.toFixed(2));
+
+                // Display success message
+                toastr.success('Total amount due: ' + totalAmount.toFixed(2));
+
+                // Allow form to submit after a short delay
+                setTimeout(function () {
+                    $('#claimForm')[0].submit(); // Submit the form after delay
+                }, 5000);
+
+                return false; // Prevent form submission here, handled by setTimeout
+            });
+        });
+
+    </script>
+}

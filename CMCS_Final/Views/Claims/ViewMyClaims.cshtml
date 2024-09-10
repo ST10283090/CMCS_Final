@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CMCS_Final.Models.Claims>
+
+<h2>Your Claims</h2>
+
+@if (!Model.Any())
+{
+    <p>No claims found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Claim Period</th>
+                <th>Hours Worked</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Date Submitted</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.ClaimsPeriodStart.ToString("d") - @claim.ClaimsPeriodEnd.ToString("d")</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.TotalAmount.ToString("C")</td>
+                    <td>@claim.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
