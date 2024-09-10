@@ -31,7 +31,7 @@
         <input asp-for="ClaimsPeriodStart" type="date" class="form-control" />
         <span asp-validation-for="ClaimsPeriodStart" class="text-danger"></span>
     </div>
-     
+
     <div class="form-group">
         <label asp-for="ClaimsPeriodEnd"></label>
         <input asp-for="ClaimsPeriodEnd" type="date" class="form-control" />
@@ -77,24 +77,24 @@
                 var ratePerHour = parseFloat($('#RatePerHour').val());
                 var totalAmount = hoursWorked * ratePerHour;
 
-                // Validate required fields
+
                 if (isNaN(hoursWorked) || isNaN(ratePerHour) || hoursWorked <= 0 || ratePerHour <= 0) {
                     toastr.error('Please fill in all required fields with valid values.');
-                    return false; // Prevent form submission
+                    return false;
                 }
 
-                // Set total amount
+
                 $('#TotalAmount').val(totalAmount.toFixed(2));
 
-                // Display success message
+
                 toastr.success('Total amount due: ' + totalAmount.toFixed(2));
 
-                // Allow form to submit after a short delay
+
                 setTimeout(function () {
-                    $('#claimForm')[0].submit(); // Submit the form after delay
+                    $('#claimForm')[0].submit();
                 }, 5000);
 
-                return false; // Prevent form submission here, handled by setTimeout
+                return false;
             });
         });
 

@@ -37,7 +37,6 @@
                 <td>@claim.DescriptionOfWork</td>
                 <td>@claim.Status</td>
                 <td>
-                    <!-- You can add buttons for actions like approving, rejecting, etc. here -->
                     <a asp-action="ApproveClaim" asp-route-id="@claim.Id" class="btn btn-success">Approve</a>
                     <a asp-action="RejectClaim" asp-route-id="@claim.Id" class="btn btn-danger">Reject</a>
                 </td>

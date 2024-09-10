@@ -35,7 +35,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseAuthentication(); // Ensure authentication middleware is added
+        app.UseAuthentication(); 
         app.UseAuthorization();
 
         app.MapControllerRoute(
@@ -43,7 +43,6 @@ public class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
 
-        // Ensure roles exist
         using (var scope = app.Services.CreateScope())
         {
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -73,7 +72,6 @@ public class Program
             }
         }
 
-        // Assign roles to new users
         app.Use(async (context, next) =>
         {
             if (context.User.Identity.IsAuthenticated)
@@ -85,7 +83,6 @@ public class Program
                     var user = await userManager.GetUserAsync(context.User);
                     if (user != null)
                     {
-                        // Ensure the user is not the Programme Co-ordinator
                         if (user.UserName != "Prog@Coord.com")
                         {
                             if (!await userManager.IsInRoleAsync(user, "Lecturer"))
@@ -94,8 +91,8 @@ public class Program
                             }
                         }
                     }
-                } 
-            } 
+                }
+            }
             await next();
         });
 
