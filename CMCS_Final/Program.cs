@@ -35,7 +35,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseAuthentication(); 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(
@@ -48,7 +48,7 @@ public class Program
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            var roles = new[] { "Programme Co-ordinator", "Lecturer" };
+            var roles = new[] { "Academic Manager", "Programme Coordinator", "Lecturer" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -57,8 +57,8 @@ public class Program
                 }
             }
 
-            var adminEmail = "Prog@Coord.com";
-            var adminPassword = "Progcoord123!";
+            var adminEmail = "Academic@gmail.com";
+            var adminPassword = "Academic!23";
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
@@ -67,7 +67,21 @@ public class Program
                 var result = await userManager.CreateAsync(adminUser, adminPassword);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(adminUser, "Programme Co-ordinator");
+                    await userManager.AddToRoleAsync(adminUser, "Academic Manager");
+                }
+            }
+
+            var programmeCoordinatorEmail = "Programme@gmail.com";
+            var programmeCoordinatorPassword = "Programme!23";
+
+            var programmeCoordinatorUser = await userManager.FindByEmailAsync(programmeCoordinatorEmail);
+            if (programmeCoordinatorUser == null)
+            {
+                programmeCoordinatorUser = new IdentityUser { UserName = programmeCoordinatorEmail, Email = programmeCoordinatorEmail };
+                var result = await userManager.CreateAsync(programmeCoordinatorUser, programmeCoordinatorPassword);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(programmeCoordinatorUser, "Programme Coordinator");
                 }
             }
         }
@@ -83,12 +97,10 @@ public class Program
                     var user = await userManager.GetUserAsync(context.User);
                     if (user != null)
                     {
-                        if (user.UserName != "Prog@Coord.com")
+                        var isLecturer = await userManager.IsInRoleAsync(user, "Lecturer");
+                        if (!isLecturer)
                         {
-                            if (!await userManager.IsInRoleAsync(user, "Lecturer"))
-                            {
-                                await userManager.AddToRoleAsync(user, "Lecturer");
-                            }
+                            await userManager.AddToRoleAsync(user, "Lecturer");
                         }
                     }
                 }
@@ -99,6 +111,3 @@ public class Program
         app.Run();
     }
 }
-
-
-

@@ -12,12 +12,8 @@ namespace CMCS_Final.Data
         {
         }
 
-        public ApplicationDbContext(DbSet<Claims> claims)
-        {
-            Claims = claims;
-        }
-
         public DbSet<Claims> Claims { get; set; }
     }
+
 }
 

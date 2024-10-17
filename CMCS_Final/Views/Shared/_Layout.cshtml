@@ -22,16 +22,8 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Lecturer"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="Claims">Submit a claim</a>
@@ -39,13 +31,14 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Claims" asp-action="ViewMyClaims">View My Claims</a>
                             </li>
+                            @if (User.IsInRole("Academic Manager") || User.IsInRole("Programme Coordinator"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="AllClaims">All Claims</a>
+                                </li>
+                            }
                         }
-                        @if (User.IsInRole("Programme Co-ordinator"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="AllClaims">All Claims</a>
-                            </li>
-                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -71,6 +64,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-
-
